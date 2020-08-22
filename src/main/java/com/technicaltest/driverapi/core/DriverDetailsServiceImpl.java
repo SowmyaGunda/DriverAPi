@@ -3,23 +3,23 @@ package com.technicaltest.driverapi.core;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public class DriverDetailsServiceImpl implements DriverDetailsService {
 
     private final DriverDetailsRepository driverDetailsRepository;
+    private final UniqueIdService uniqueIdService;
 
     @Autowired
-    public DriverDetailsServiceImpl(DriverDetailsRepository driverDetailsRepository)
+    public DriverDetailsServiceImpl(DriverDetailsRepository driverDetailsRepository, UniqueIdService uniqueIdService)
     {
         this.driverDetailsRepository = driverDetailsRepository;
+        this.uniqueIdService = uniqueIdService;
     }
 
     @Override
-    public void SaveDetails() {
+    public void SaveDetails(Driver driver) {
 
     }
 

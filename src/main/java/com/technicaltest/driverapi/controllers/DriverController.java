@@ -2,10 +2,10 @@ package com.technicaltest.driverapi.controllers;
 
 import com.technicaltest.driverapi.core.Driver;
 import com.technicaltest.driverapi.core.DriverDetailsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,8 +23,29 @@ public class DriverController {
         this.driverDetailsService = driverDetailsService;
     }
 
-    @GetMapping("/drivers")
-    public Collection<Driver> GetDrivers(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable Date date) {
-        return this.driverDetailsService.getDrivers(date);
+    @GetMapping(value = "/drivers", produces = "application/json")
+    public ResponseEntity<Collection<Driver>> GetDrivers(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                             @Nullable Date date) {
+        try
+        {
+            return ResponseEntity.ok(this.driverDetailsService.getDrivers(date));
+        }
+        catch(Exception exception)
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+        }
+    }
+
+    @PostMapping(value= "/driver/create", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> AddDriver(@RequestBody Driver driver)
+    {
+        try
+        {
+            this.driverDetailsService.SaveDetails(driver);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
