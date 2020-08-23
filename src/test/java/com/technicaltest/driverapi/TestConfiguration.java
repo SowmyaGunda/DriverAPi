@@ -30,8 +30,8 @@ public class TestConfiguration {
             @Override
             public Collection<DriverDto> getAllDrivers() {
                 ArrayList<DriverDto> drivers = new ArrayList<DriverDto>();
-                drivers.add(new DriverDto("asdf","Driver 1","abc","09/04/1991", "23/08/2020"));
-                drivers.add(new DriverDto("dfhg","Driver 2","xyz","13/04/1987","23/08/2020"));
+                drivers.add(new DriverDto("unique-id-1","Driver 1","abc","09/04/1991", "23/08/2020"));
+                drivers.add(new DriverDto("unique-id-2","Driver 2","xyz","13/04/1987","24/08/2020"));
                 return drivers;
             }
         };

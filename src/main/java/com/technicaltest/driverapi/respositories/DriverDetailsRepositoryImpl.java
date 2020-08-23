@@ -3,7 +3,6 @@ package com.technicaltest.driverapi.respositories;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,34 +10,35 @@ import java.util.*;
 import com.opencsv.CSVWriter;
 
 public class DriverDetailsRepositoryImpl implements  DriverDetailsRepository{
-    private String fileName = "DriverDetails";
+    private final String fileName = "DriverDetails.csv";
+    private final char COMMA_SEPARATOR = ',';
     @Override
-    public void saveDriver(DriverDto driverDto) {
-        File file = new File(fileName);
+    public void saveDriver(DriverDto driverDto) throws IOException {
+
         try {
             // create FileWriter object with file as parameter
-            FileWriter outputfile = new FileWriter(file);
+            FileWriter outputFile = new FileWriter(fileName,true);
 
             // create CSVWriter with ',' as separator
-            CSVWriter writer = new CSVWriter(outputfile, ',',
+            CSVWriter writer = new CSVWriter(outputFile, COMMA_SEPARATOR,
                     CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END);
 
-            String[] rowdata = {driverDto.uniqueId, driverDto.firstName, driverDto.lastName, driverDto.dob, driverDto.creationDate};
+            String[] rowData = {driverDto.uniqueId, driverDto.firstName, driverDto.lastName, driverDto.dob, driverDto.creationDate};
 
             // create a List which contains Data
             List<String[]> data = new ArrayList<String[]>();
-            data.add(rowdata);
+            data.add(rowData);
 
-            writer.writeAll(data);
+            writer.writeNext(rowData);
 
             // closing writer connection
             writer.close();
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -53,7 +53,6 @@ public class DriverDetailsRepositoryImpl implements  DriverDetailsRepository{
 
             // create csvReader object and skip first Line
             CSVReader csvReader = new CSVReaderBuilder(filereader)
-                    .withSkipLines(1)
                     .build();
             List<String[]> allData = csvReader.readAll();
 
@@ -79,7 +78,6 @@ public class DriverDetailsRepositoryImpl implements  DriverDetailsRepository{
 
             // create csvReader object and skip first Line
             CSVReader csvReader = new CSVReaderBuilder(filereader)
-                    .withSkipLines(1)
                     .build();
             List<String[]> allData = csvReader.readAll();
 

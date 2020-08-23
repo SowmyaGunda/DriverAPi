@@ -25,11 +25,28 @@ public class DriverController {
     }
 
     @GetMapping(value = "/drivers", produces = "application/json")
-    public ResponseEntity<Collection<DriverDto>> GetDrivers(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                             @Nullable Date date) {
+    public ResponseEntity<Collection<DriverDto>> GetAllDrivers() {
         try
         {
-            return ResponseEntity.ok(this.driverDetailsService.getDrivers(date));
+            return ResponseEntity.ok(this.driverDetailsService.getAllDrivers());
+        }
+        catch(Exception exception)
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+        }
+    }
+
+    @GetMapping(value = "/drivers/byDate", produces = "application/json")
+    public ResponseEntity<Collection<DriverDto>> GetDriversByDate(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        if(date == null)
+        {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        try
+        {
+            return ResponseEntity.ok(this.driverDetailsService.getDriversByDate(date));
         }
         catch(Exception exception)
         {

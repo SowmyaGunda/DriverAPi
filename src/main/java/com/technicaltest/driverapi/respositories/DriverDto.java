@@ -16,7 +16,8 @@ public class DriverDto extends Driver {
         uniqueId = new UniqueIdService().getNewId();
         creationDate = formatter.format(new Date());
     }
-    public DriverDto(String uniqueId,String firstName, String lastName, String dob, String creationDate) {
+
+    public DriverDto(String uniqueId, String firstName, String lastName, String dob, String creationDate) {
         super(firstName, lastName, dob);
         this.uniqueId = uniqueId;
         this.creationDate = creationDate;

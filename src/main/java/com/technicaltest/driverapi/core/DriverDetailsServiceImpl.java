@@ -19,12 +19,17 @@ public class DriverDetailsServiceImpl implements DriverDetailsService {
     }
 
     @Override
-    public void saveDetails(Driver driver) {
-
+    public void saveDetails(Driver driver) throws Exception {
+        this.driverDetailsRepository.saveDriver(new DriverDto(driver.firstName, driver.lastName, driver.dob));
     }
 
     @Override
-    public Collection<DriverDto> getDrivers(Date date) {
+    public Collection<DriverDto> getAllDrivers() {
+            return this.driverDetailsRepository.getAllDrivers();
+    }
+
+    @Override
+    public Collection<DriverDto> getDriversByDate(Date date) {
         if (date != null) {
             return this.driverDetailsRepository.getDriversByDate(date);
         } else {

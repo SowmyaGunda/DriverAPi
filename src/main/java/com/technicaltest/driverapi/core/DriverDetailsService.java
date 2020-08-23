@@ -6,7 +6,9 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface DriverDetailsService {
-    public void saveDetails(Driver driver);
+    public void saveDetails(Driver driver) throws Exception;
 
-    Collection<DriverDto> getDrivers(Date date);
+    Collection<DriverDto> getDriversByDate(Date date);
+
+    Collection<DriverDto> getAllDrivers();
 }

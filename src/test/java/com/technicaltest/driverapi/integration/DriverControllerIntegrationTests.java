@@ -37,14 +37,22 @@ class DriverControllerIntegrationTests {
 	}
 
 	@Test
-	public void givenGetDriverUrl_WithNoDateParam_ThenShouldReturnAllDrives() throws Exception {
+	public void givenGetAllDriversUrl_WithNoDateParam_ThenShouldReturnAllDrives() throws Exception {
 		this.mockMvc.perform(get("/drivers"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.*",hasSize(2)));
 	}
 
 	@Test
-	public void givenCreateDriverUrl_WithValidPostBody_thenReturn200() throws Exception {
+	public void givenGetDriversByDateUrl_WithDateParam_ThenShouldReturnDriversCreatedAfterGivenDate() throws Exception {
+		this.mockMvc.perform(get("/drivers?date=2020-08-23"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.*",hasSize(1)))
+				.andExpect(jsonPath("$.[0].firstName").value("Driver-2"));
+	}
+
+	@Test
+	public void givenCreateDriverUrl_WithValidPostBody_thenItShouldReturn200() throws Exception {
 		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","asd","24/05/1990"));
 		mockMvc.perform(
 				post("/driver/create").accept("application/json").content(jsonString))
