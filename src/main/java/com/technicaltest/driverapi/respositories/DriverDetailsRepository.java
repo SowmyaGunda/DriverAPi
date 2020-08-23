@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface DriverDetailsRepository {
-    public void SaveDriver(DriverDto driverDto);
-    public Collection<Driver> GetDriversByDate(Date date);
-    public Collection<Driver> GetAllDrivers();
+    public void saveDriver(DriverDto driverDto);
+    public Collection<DriverDto> getDriversByDate(Date date);
+    public Collection<DriverDto> getAllDrivers();
 }

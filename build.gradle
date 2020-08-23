@@ -20,6 +20,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web:2.3.3.RELEASE'
 	compile 'org.springframework:spring-context:5.2.8.RELEASE'
 	compile 'junit:junit:4.13'
+	compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
 }
 
 test {

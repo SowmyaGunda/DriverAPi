@@ -45,7 +45,7 @@ class DriverControllerIntegrationTests {
 
 	@Test
 	public void givenCreateDriverUrl_WithValidPostBody_thenReturn200() throws Exception {
-		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver"));
+		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","asd","24/05/1990"));
 		mockMvc.perform(
 				post("/driver/create").accept("application/json").content(jsonString))
 				.andExpect(status().isOk());

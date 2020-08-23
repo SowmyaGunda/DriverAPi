@@ -2,6 +2,7 @@ package com.technicaltest.driverapi.controllers;
 
 import com.technicaltest.driverapi.core.Driver;
 import com.technicaltest.driverapi.core.DriverDetailsService;
+import com.technicaltest.driverapi.respositories.DriverDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -24,7 +25,7 @@ public class DriverController {
     }
 
     @GetMapping(value = "/drivers", produces = "application/json")
-    public ResponseEntity<Collection<Driver>> GetDrivers(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    public ResponseEntity<Collection<DriverDto>> GetDrivers(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                              @Nullable Date date) {
         try
         {
@@ -41,7 +42,7 @@ public class DriverController {
     {
         try
         {
-            this.driverDetailsService.SaveDetails(driver);
+            this.driverDetailsService.saveDetails(driver);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         catch (Exception exception) {

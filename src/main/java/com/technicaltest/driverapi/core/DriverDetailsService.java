@@ -1,10 +1,12 @@
 package com.technicaltest.driverapi.core;
 
+import com.technicaltest.driverapi.respositories.DriverDto;
+
 import java.util.Collection;
 import java.util.Date;
 
 public interface DriverDetailsService {
-    public void SaveDetails(Driver driver);
+    public void saveDetails(Driver driver);
 
-    Collection<Driver> getDrivers(Date date);
+    Collection<DriverDto> getDrivers(Date date);
 }

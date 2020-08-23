@@ -7,6 +7,7 @@ import com.technicaltest.driverapi.core.DriverDetailsServiceImpl;
 import com.technicaltest.driverapi.core.UniqueIdService;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepository;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepositoryImpl;
+import com.technicaltest.driverapi.respositories.DriverDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +28,10 @@ public class TestConfiguration {
     {
         return new DriverDetailsRepositoryImpl(){
             @Override
-            public Collection<Driver> GetAllDrivers() {
-                ArrayList<Driver> drivers = new ArrayList<Driver>();
-                drivers.add(new Driver("Driver 1"));
-                drivers.add(new Driver("Driver 2"));
+            public Collection<DriverDto> getAllDrivers() {
+                ArrayList<DriverDto> drivers = new ArrayList<DriverDto>();
+                drivers.add(new DriverDto("asdf","Driver 1","abc","09/04/1991", "23/08/2020"));
+                drivers.add(new DriverDto("dfhg","Driver 2","xyz","13/04/1987","23/08/2020"));
                 return drivers;
             }
         };
