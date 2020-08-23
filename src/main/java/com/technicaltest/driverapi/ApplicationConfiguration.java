@@ -5,6 +5,8 @@ import com.technicaltest.driverapi.core.DriverDetailsServiceImpl;
 import com.technicaltest.driverapi.core.UniqueIdService;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepository;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepositoryImpl;
+import com.technicaltest.driverapi.utils.CSVFileUtils;
+import com.technicaltest.driverapi.utils.CSVFileUtilsImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,16 @@ public class ApplicationConfiguration {
         return new DriverDetailsServiceImpl(driverDetailsRepository, new UniqueIdService());
     }
 
-    @Bean DriverDetailsRepository driverDetailsRepository()
+    @Bean
+    public DriverDetailsRepository driverDetailsRepository(CSVFileUtils csvFileUtils)
     {
-        return new DriverDetailsRepositoryImpl();
+        return new DriverDetailsRepositoryImpl(csvFileUtils);
     }
+
+    @Bean
+    public CSVFileUtils csvFileUtils()
+    {
+        return new CSVFileUtilsImpl();
+    }
+
 }

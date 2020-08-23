@@ -1,4 +1,4 @@
-package com.technicaltest.driverapi;
+package com.technicaltest.driverapi.utils;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -9,11 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
-public class CSVFileUtils {
+public class CSVFileUtilsImpl implements CSVFileUtils {
     private final static String fileName = "DriverDetails.csv";
     private final static char COMMA_SEPARATOR = ',';
 
-    public void writeToCSVFile(String[] csvRowData) throws IOException {
+    @Override
+    public void writeToCSVFile(Collection<String> csvRowData) throws IOException {
         try {
             // create FileWriter object with file as parameter
             FileWriter outputFile = new FileWriter(fileName, true);
@@ -24,7 +25,7 @@ public class CSVFileUtils {
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END);
 
-            writer.writeNext(csvRowData);
+            writer.writeNext((String[]) csvRowData.toArray());
 
             // closing writer connection
             writer.close();
@@ -34,7 +35,7 @@ public class CSVFileUtils {
         }
     }
 
-
+    @Override
     public Collection<String[]> readFromCSVFile() throws IOException {
         try {
             // Create an object of file reader
@@ -46,7 +47,7 @@ public class CSVFileUtils {
                     .build();
             return csvReader.readAll();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw e;
         }

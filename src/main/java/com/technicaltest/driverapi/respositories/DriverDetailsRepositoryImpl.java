@@ -1,93 +1,67 @@
 package com.technicaltest.driverapi.respositories;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
+import com.technicaltest.driverapi.utils.CSVFileUtils;
+import com.technicaltest.driverapi.utils.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import com.opencsv.CSVWriter;
 
-public class DriverDetailsRepositoryImpl implements  DriverDetailsRepository{
-    private final String fileName = "DriverDetails.csv";
-    private final char COMMA_SEPARATOR = ',';
+public class DriverDetailsRepositoryImpl implements DriverDetailsRepository {
+
+    private final CSVFileUtils csvFileUtils;
+
+    @Autowired
+    public DriverDetailsRepositoryImpl(CSVFileUtils csvFileUtils) {
+
+        this.csvFileUtils = csvFileUtils;
+    }
+
     @Override
-    public void saveDriver(DriverDto driverDto) throws IOException {
-
+    public void saveDriver(DriverDto driverDto) throws Exception {
         try {
-            // create FileWriter object with file as parameter
-            FileWriter outputFile = new FileWriter(fileName,true);
-
-            // create CSVWriter with ',' as separator
-            CSVWriter writer = new CSVWriter(outputFile, COMMA_SEPARATOR,
-                    CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-
-            String[] rowData = {driverDto.uniqueId, driverDto.firstName, driverDto.lastName, driverDto.dob, driverDto.creationDate};
-
-            // create a List which contains Data
-            List<String[]> data = new ArrayList<String[]>();
-            data.add(rowData);
-
-            writer.writeNext(rowData);
-
-            // closing writer connection
-            writer.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            throw e;
+            String[] rowData = {driverDto.uniqueId, driverDto.firstname, driverDto.lastname, driverDto.date_of_birth, driverDto.creationDate};
+            csvFileUtils.writeToCSVFile(Arrays.asList(rowData));
+        } catch (IOException ioException) {
+            throw new Exception(ioException.getMessage(), ioException);
         }
     }
 
 
     @Override
-    public Collection<DriverDto> getDriversByDate(Date date) {
-        List<DriverDto> driversData = new ArrayList<>();
+    public Collection<DriverDto> getDriversByDate(Date date) throws Exception {
         try {
-            // Create an object of file reader
-            // class with CSV file as a parameter.
-            FileReader filereader = new FileReader(fileName);
-
-            // create csvReader object and skip first Line
-            CSVReader csvReader = new CSVReaderBuilder(filereader)
-                    .build();
-            List<String[]> allData = csvReader.readAll();
-
-            for (String[] row : allData) {
-                Date creationDate = DriverDto.formatter.parse(row[4]);
-                if(creationDate.after(date)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DateFormat);
+            List<DriverDto> driversData = new ArrayList<>();
+            List<String[]> allDriversData = (List<String[]>) csvFileUtils.readFromCSVFile();
+            for (String[] row : allDriversData) {
+                Date creationDate = dateFormat.parse(row[4]);
+                if (creationDate.after(date)) {
                     driversData.add(new DriverDto(row[0], row[1], row[2], row[3], row[4]));
                 }
             }
+            return driversData;
+        } catch (IOException ioException) {
+            throw new Exception(ioException.getMessage(), ioException);
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return driversData;    }
+    }
 
     @Override
-    public Collection<DriverDto> getAllDrivers() {
-        List<DriverDto> driversData = new ArrayList<>();
-        try {
-            // Create an object of file reader
-            // class with CSV file as a parameter.
-            FileReader filereader = new FileReader(fileName);
+    public Collection<DriverDto> getAllDrivers() throws Exception {
+        try{
+            List<DriverDto> driversData = new ArrayList<>();
+            List<String[]> allDriversData = (List<String[]>) csvFileUtils.readFromCSVFile();
 
-            // create csvReader object and skip first Line
-            CSVReader csvReader = new CSVReaderBuilder(filereader)
-                    .build();
-            List<String[]> allData = csvReader.readAll();
-
-            for (String[] row : allData) {
-                driversData.add(new DriverDto(row[0],row[1],row[2],row[3],row[4]));
+            for (String[] row : allDriversData) {
+                driversData.add(new DriverDto(row[0], row[1], row[2], row[3], row[4]));
             }
+            return driversData;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (IOException ioException)
+        {
+            throw new Exception(ioException.getMessage(), ioException);
         }
-        return driversData;
+
     }
 }

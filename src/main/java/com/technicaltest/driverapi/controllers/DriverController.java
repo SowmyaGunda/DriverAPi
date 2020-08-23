@@ -3,12 +3,11 @@ package com.technicaltest.driverapi.controllers;
 import com.technicaltest.driverapi.core.Driver;
 import com.technicaltest.driverapi.core.DriverDetailsService;
 import com.technicaltest.driverapi.respositories.DriverDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -39,6 +38,7 @@ public class DriverController {
     @GetMapping(value = "/drivers/byDate", produces = "application/json")
     public ResponseEntity<Collection<DriverDto>> GetDriversByDate(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+
         if(date == null)
         {
             return ResponseEntity.badRequest().body(null);

@@ -1,7 +1,5 @@
-package com.technicaltest.driverapi;
-
-import java.text.SimpleDateFormat;
+package com.technicaltest.driverapi.utils;
 
 public final class Constants {
-    public static final String DateFormat = "dd/MM/yyyy";
+    public static final String DateFormat = "yyyy-MM-dd";
 }

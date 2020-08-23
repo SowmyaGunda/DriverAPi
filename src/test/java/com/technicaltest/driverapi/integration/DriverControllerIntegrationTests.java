@@ -26,8 +26,8 @@ class DriverControllerIntegrationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	@Autowired
-	private ObjectMapper objectMapper;
+
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 
@@ -40,22 +40,32 @@ class DriverControllerIntegrationTests {
 	public void givenGetAllDriversUrl_WithNoDateParam_ThenShouldReturnAllDrives() throws Exception {
 		this.mockMvc.perform(get("/drivers"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.*",hasSize(2)));
+				.andExpect(jsonPath("$.*", hasSize(2)));
 	}
 
 	@Test
 	public void givenGetDriversByDateUrl_WithDateParam_ThenShouldReturnDriversCreatedAfterGivenDate() throws Exception {
-		this.mockMvc.perform(get("/drivers?date=2020-08-23"))
+		this.mockMvc.perform(get("/drivers/byDate")
+				.queryParam("date", "2020-08-13"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.*",hasSize(1)))
-				.andExpect(jsonPath("$.[0].firstName").value("Driver-2"));
+				.andExpect(jsonPath("$.*", hasSize(1)))
+				.andExpect(jsonPath("$.[0].firstname").value("Driver-2-First-Name"))
+				.andExpect(jsonPath("$.[0].uniqueId").value("UniqueId-2"));
+	}
+
+	@Test
+	public void givenGetDriversByDateUrl_WithNoDateValue_ThenShouldReturnBadRequestResult() throws Exception {
+		this.mockMvc.perform(get("/drivers/byDate")
+				.queryParam("date", ""))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void givenCreateDriverUrl_WithValidPostBody_thenItShouldReturn200() throws Exception {
-		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","asd","24/05/1990"));
+		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","Driver-LastName","1990-05-24"));
 		mockMvc.perform(
-				post("/driver/create").accept("application/json").content(jsonString))
-				.andExpect(status().isOk());
+				post("/driver/create").accept("application/json")
+						.content(jsonString).contentType("application/json"))
+				.andExpect(status().isAccepted());
 	}
 }
