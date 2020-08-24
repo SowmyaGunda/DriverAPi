@@ -12,9 +12,9 @@ This is a sample rest api developed using spring boot framework used to handle c
 `This app runs on spring boot default port i.e. 8080. The root endpoint for the api is :` [http://localhost:8080/](http://localhost:8080/)
 
 The app is bundled with gradle build script. There are multiple gradle tasks added to the build script. The tasks are defined as below:
-* To build the application : ``` <command for build> ```
-* To run all unit and integration tests : ``` <command for test> ```
-* To run application : ``` <command for run> ```
+* To build the application : ``` gradlew build ``` jar can be found in build/libs
+* To run all unit and integration tests : ``` gradlew test ```
+* To run application : ``` gradlew bootrun ```
 
 
 ## API endpoints and description
