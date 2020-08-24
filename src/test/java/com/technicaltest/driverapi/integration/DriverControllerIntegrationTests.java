@@ -66,6 +66,6 @@ class DriverControllerIntegrationTests {
 		mockMvc.perform(
 				post("/driver/create").accept("application/json")
 						.content(jsonString).contentType("application/json"))
-				.andExpect(status().isAccepted());
+				.andExpect(status().isOk());
 	}
 }

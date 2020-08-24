@@ -71,17 +71,17 @@ public class DriverController {
     @PostMapping(value= "/driver/create", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "Create a new driver with provided details")
     @ApiResponses(value ={
-            @ApiResponse(code = 202, message = "Successfully processed the request"),
+            @ApiResponse(code = 200, message = "Successfully processed the request"),
             @ApiResponse(code = 417, message = "Any error occurred while processing request")})
-    public ResponseEntity<?> AddDriver(@RequestBody Driver driver)
+    public ResponseEntity AddDriver(@RequestBody Driver driver)
     {
         try
         {
             this.driverDetailsService.saveDetails(driver);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return  ResponseEntity.ok().build();
         }
         catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
