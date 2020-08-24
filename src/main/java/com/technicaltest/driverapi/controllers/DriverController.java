@@ -81,7 +81,7 @@ public class DriverController {
             return  ResponseEntity.ok().build();
         }
         catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
         }
     }
 }

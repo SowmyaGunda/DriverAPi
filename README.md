@@ -26,7 +26,7 @@ The app is bundled with gradle build script. There are multiple gradle tasks add
 
 `This api is annotated with Open Api specifications using swagger. To get more information on what are the endpoints, descriptions and how to use examples please use swagger-ui endpoint:` [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
-`<TBD ADD image>`
+![Swagger all endpoints](images/swagger-home.png)
 
 
 1. **Create Driver**
@@ -38,26 +38,57 @@ The app is bundled with gradle build script. There are multiple gradle tasks add
     **URL** | /driver/create 
     **HTTP method** | **POST**
     **POST body** | ```{ "firstname": "John", "lastname": "Smith","date_of_birth": "1980-05-01" }```
-    **Response Status** | 202 : Successfully created 
+    **Response Status** | 200 : Successfully created <br> 417 : Error occurred while processing request
 
-    `<TBD ADD image>`
+![Swagger create endpoint](images/create.png)
 
 
 2. **Get all drivers**
+
     This endpoint will return a list of all existing drivers.
 
     Item | Detils
     -----|-------
     **URL** | /drivers 
     **HTTP method** | **GET**
+    **Response Status** | 200 : Successfully processed request <br> 417 : Error occurred while processing request
     
-`<TBD ADD image>`
+    **Sample Response**
+    ``` 
+   [
+     {
+       "creationDate": "string",
+       "date_of_birth": "string",
+       "firstname": "string",
+       "lastname": "string",
+       "uniqueId": "string"
+     }
+   ] 
+   ```
+    
+![Swagger Get all drivers endpoint](images/get-all.png)
 
 3. **Get Drivers by date**
-    This endpoint will returns a list of all drivers created after the specified date. The should be passed through request paramters in **yyyy-MM-dd** format.
+
+    This endpoint will returns a list of all drivers created after the specified date. The date should be passed through request paramters in **yyyy-MM-dd** format.
     
     Item | Detils
     -----|-------
     **URL** | /drivers/byDate
     **HTTP method** | **GET**
-    **Request Params**| Name : `date` Format : `yyyy-MM-dd`
+    **Request Params**| *Name* : `date` <br> *Format* : `yyyy-MM-dd`
+    **Response Status** | 200 : Successfully returned result <br> 417 : Error occurred while processing request
+    
+   **Sample Response**
+     ``` 
+       [
+         {
+           "creationDate": "string",
+           "date_of_birth": "string",
+           "firstname": "string",
+           "lastname": "string",
+           "uniqueId": "string"
+         }
+       ] 
+       ```
+![Swagger get drivers by date endpoint](images/get-bydate.png)
