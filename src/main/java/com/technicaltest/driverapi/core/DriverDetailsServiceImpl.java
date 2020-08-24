@@ -26,7 +26,7 @@ public class DriverDetailsServiceImpl implements DriverDetailsService {
     public void saveDetails(Driver driver) throws Exception {
         this.driverDetailsRepository.saveDriver(
                 new DriverDto(uniqueIdService.getNewId(), driver.firstname, driver.lastname,
-                        driver.date_of_birth, FORMATTER.format(new Date())));
+                        FORMATTER.format(FORMATTER.parse(driver.date_of_birth)), FORMATTER.format(new Date())));
     }
 
     @Override

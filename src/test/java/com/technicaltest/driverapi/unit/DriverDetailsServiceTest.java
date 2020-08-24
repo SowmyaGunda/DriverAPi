@@ -30,10 +30,9 @@ public class DriverDetailsServiceTest {
     DriverDetailsRepository driverDetailsRepository;
     @Mock
     UniqueIdService uniqueIdService;
-    @Mock
-    DriverDto driverDto;
-    @Mock
+
     Driver driver;
+
     DriverDetailsService driverDetailsService;
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -41,6 +40,7 @@ public class DriverDetailsServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        driver = new Driver("first name", "last name", "1990-10-20");
         driverDetailsService = new DriverDetailsServiceImpl(driverDetailsRepository, uniqueIdService);
     }
 

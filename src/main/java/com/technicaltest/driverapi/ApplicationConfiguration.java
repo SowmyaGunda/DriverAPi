@@ -7,6 +7,7 @@ import com.technicaltest.driverapi.respositories.DriverDetailsRepository;
 import com.technicaltest.driverapi.respositories.DriverDetailsRepositoryImpl;
 import com.technicaltest.driverapi.utils.CSVFileUtils;
 import com.technicaltest.driverapi.utils.CSVFileUtilsImpl;
+import com.technicaltest.driverapi.utils.Validator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,12 @@ public class ApplicationConfiguration {
     public CSVFileUtils csvFileUtils()
     {
         return new CSVFileUtilsImpl();
+    }
+
+    @Bean
+    public Validator validator()
+    {
+        return new Validator();
     }
 
 }

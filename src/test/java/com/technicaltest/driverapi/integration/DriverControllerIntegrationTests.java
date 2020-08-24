@@ -13,11 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -62,10 +62,37 @@ class DriverControllerIntegrationTests {
 
 	@Test
 	public void givenCreateDriverUrl_WithValidPostBody_thenItShouldReturn200() throws Exception {
-		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","Driver-LastName","1990-05-24"));
+		String jsonString = objectMapper.writeValueAsString(new Driver("new Driver","Driver-LastName", "1990-05-24"));
 		mockMvc.perform(
 				post("/driver/create").accept("application/json")
 						.content(jsonString).contentType("application/json"))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void givenCreateDriverUrl_WithInvalidFirstNameInPostBody_thenItShouldReturn400() throws Exception {
+		String jsonString = objectMapper.writeValueAsString(new Driver("","Driver-LastName", "1990-05-24"));
+		mockMvc.perform(
+				post("/driver/create").accept("application/json")
+						.content(jsonString).contentType("application/json"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void givenCreateDriverUrl_WithInvalidLastNameInPostBody_thenItShouldReturn400() throws Exception {
+		String jsonString = objectMapper.writeValueAsString(new Driver("Drive-FirstName","", "1990-05-24"));
+		mockMvc.perform(
+				post("/driver/create").accept("application/json")
+						.content(jsonString).contentType("application/json"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void givenCreateDriverUrl_WithInvalidDateFormatInPostBody_thenItShouldReturn400() throws Exception {
+		String jsonString = objectMapper.writeValueAsString(new Driver("Drive-FirstName","", "05-24-1990"));
+		mockMvc.perform(
+				post("/driver/create").accept("application/json")
+						.content(jsonString).contentType("application/json"))
+				.andExpect(status().isBadRequest());
 	}
 }
